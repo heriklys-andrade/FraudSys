@@ -18,6 +18,7 @@ builder.Services.AddAWSService<IAmazonDynamoDB>();
 //DI Services
 builder.Services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 builder.Services.AddControllers();

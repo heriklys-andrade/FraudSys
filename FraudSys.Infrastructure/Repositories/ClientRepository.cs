@@ -41,6 +41,15 @@ namespace FraudSys.Infrastructure.Repositories
             await _context.SaveAsync(client, cancellationToken);
         }
 
+        public async Task UpdateClientsAsync(IEnumerable<ClientEntity> clients, CancellationToken cancellationToken)
+        {
+            var batch = _context.CreateBatchWrite<ClientEntity>();
+
+            batch.AddPutItems(clients);
+
+            await batch.ExecuteAsync(cancellationToken);
+        }
+
         public async Task DeleteClientAsync(ClientEntity client, CancellationToken cancellationToken)
         {
             await _context.DeleteAsync(client, cancellationToken);

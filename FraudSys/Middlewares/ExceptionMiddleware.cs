@@ -16,7 +16,7 @@ namespace FraudSys.Api.Middlewares
             {
                 await HandleException(context, ex, HttpStatusCode.NotFound);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (ex is ArgumentException || ex is InvalidOperationException)
             {
                 await HandleException(context, ex, HttpStatusCode.BadRequest);
             }
@@ -31,7 +31,6 @@ namespace FraudSys.Api.Middlewares
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)httpStatusCode;
 
-
             switch (httpStatusCode)
             {
                 case HttpStatusCode.NotFound:
@@ -43,7 +42,7 @@ namespace FraudSys.Api.Middlewares
 
                 case HttpStatusCode.InternalServerError:
                 default:
-                    logger.LogError(ex, ResourceMessages.FailExecuteRouteExceptionFilter, context.Request.Path);
+                    logger.LogError(ex, ResourceMessages.FailExecuteRouteExceptionFilter, context.Request.Method, context.Request.Path);
                     break;
             }
 
