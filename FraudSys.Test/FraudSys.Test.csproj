@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FraudSys.Domain\FraudSys.Domain.csproj" />
+    <ProjectReference Include="..\FraudSys\FraudSys.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
