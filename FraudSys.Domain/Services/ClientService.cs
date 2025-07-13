@@ -64,7 +64,7 @@ namespace FraudSys.Domain.Services
             return await clientRepository.GetClientByPkAsync(clientDocument, cancellationToken) ?? throw new KeyNotFoundException("Cliente não encontrado");
         }
 
-        private static void VerifyClientDetails(int requestAgency, string requestAccount, ClientEntity client)
+        private static void VerifyClientDetails(string requestAgency, string requestAccount, ClientEntity client)
         {
             if (client.Agencia != requestAgency)
                 throw new ArgumentException("Agência do cliente não corresponde à agência solicitada");

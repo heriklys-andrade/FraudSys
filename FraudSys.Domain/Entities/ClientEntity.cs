@@ -10,7 +10,7 @@ namespace FraudSys.Domain.Entities
 
         }
 
-        public ClientEntity(string documento, int agencia, string conta, double limitePix)
+        public ClientEntity(string documento, string agencia, string conta, double limitePix)
         {
             Documento = documento;
             Agencia = agencia;
@@ -22,7 +22,7 @@ namespace FraudSys.Domain.Entities
         public string Documento { get; private set; }
 
         [DynamoDBProperty("agency")]
-        public int Agencia { get; private set; }
+        public string Agencia { get; private set; }
 
         [DynamoDBProperty("account")]
         public string Conta { get; private set; }

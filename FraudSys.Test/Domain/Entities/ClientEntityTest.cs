@@ -11,7 +11,7 @@ namespace FraudSys.Test.Domain.Entities
         {
             //Arrange
             string documento = "12345678901";
-            int agencia = 101;
+            string agencia = "101";
             string conta = "123-1";
             double limitePix = 1000.00;
             var expectedClient = new Faker<ClientEntity>()

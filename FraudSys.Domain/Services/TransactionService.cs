@@ -33,7 +33,7 @@ namespace FraudSys.Domain.Services
             return new { ClientPixLimit = sourceClient.LimitePix };
         }
 
-        private static void ValidateClientDetails(int requestAgency, string requestAccount, ClientEntity clientEntity, string clientType)
+        private static void ValidateClientDetails(string requestAgency, string requestAccount, ClientEntity clientEntity, string clientType)
         {
             if (clientEntity.Agencia != requestAgency)
                 throw new ArgumentException(string.Format("Agência do cliente de {0} não corresponde à agência solicitada", clientType));
