@@ -5,6 +5,7 @@ namespace FraudSys.Domain.Interfaces.Services
 {
     public interface IClientService
     {
+        Task CreateClientAsync(CreateClientRequest request, CancellationToken cancellationToken);
         Task<GetClientResponse> GetClientAsync(GetClientRequest request, CancellationToken cancellationToken);
     }
 }

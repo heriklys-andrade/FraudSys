@@ -6,7 +6,7 @@ namespace FraudSys.Domain.Services.Requests
     public class GetClientRequest
     {
         [FromQuery]
-        public required string ClientId { get; set; }
+        public required string ClientDocument { get; set; }
         [FromQuery]
         public required int ClientAgency { get; set; }
         [FromQuery]

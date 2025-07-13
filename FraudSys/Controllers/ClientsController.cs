@@ -7,25 +7,17 @@ namespace FraudSys.Api.Controllers
     [Route("v1/[controller]")]
     public class ClientsController(IClientService clientService) : Controller
     {
-        [HttpGet()]
+        [HttpPost]
+        public async Task<IActionResult> CreateClient([FromBody] CreateClientRequest request, CancellationToken cancellationToken)
+        {
+            await clientService.CreateClientAsync(request, cancellationToken);
+            return Created();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetClient(GetClientRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                return Ok(await clientService.GetClientAsync(request, cancellationToken));
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
+            return Ok(await clientService.GetClientAsync(request, cancellationToken));
         }
     }
 }

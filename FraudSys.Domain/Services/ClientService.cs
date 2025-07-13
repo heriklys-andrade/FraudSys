@@ -1,4 +1,5 @@
-﻿using FraudSys.Domain.Interfaces.Repositories;
+﻿using FraudSys.Domain.Entities;
+using FraudSys.Domain.Interfaces.Repositories;
 using FraudSys.Domain.Interfaces.Services;
 using FraudSys.Domain.Services.Requests;
 using FraudSys.Domain.Services.Responses;
@@ -7,9 +8,18 @@ namespace FraudSys.Domain.Services
 {
     public class ClientService(IClientRepository clientRepository) : IClientService
     {
+        public async Task CreateClientAsync(CreateClientRequest request, CancellationToken cancellationToken)
+        {
+            request.Validate();
+
+            var client = new ClientEntity(request.ClientDocument, request.ClientAgency, request.ClientAccount, request.ClientPixLimit);
+
+            await clientRepository.CreateClientAsync(client, cancellationToken);
+        }
+
         public async Task<GetClientResponse> GetClientAsync(GetClientRequest request, CancellationToken cancellationToken)
         {
-            var client = await clientRepository.GetClientByPkAsync(request.ClientId, cancellationToken) ?? throw new KeyNotFoundException("Cliente não encontrado");
+            var client = await clientRepository.GetClientByPkAsync(request.ClientDocument, cancellationToken) ?? throw new KeyNotFoundException("Cliente não encontrado");
 
             if (client.Agencia != request.ClientAgency)
             {

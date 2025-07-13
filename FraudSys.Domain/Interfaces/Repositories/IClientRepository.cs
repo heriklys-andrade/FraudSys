@@ -4,7 +4,7 @@ namespace FraudSys.Domain.Interfaces.Repositories
 {
     public interface IClientRepository
     {
-        Task AddClientAsync(ClientEntity client);
+        Task CreateClientAsync(ClientEntity client, CancellationToken cancellationToken);
         Task DeleteClientAsync(string pk);
         Task<ClientEntity> GetClientByPkAsync(string pk, CancellationToken cancellationToken);
         Task UpdateClientAsync(ClientEntity client);
