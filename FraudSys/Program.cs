@@ -1,5 +1,6 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using FraudSys.Api.Middlewares;
 using FraudSys.Domain.Environments;
 using FraudSys.Domain.Interfaces.Repositories;
 using FraudSys.Domain.Interfaces.Services;
@@ -31,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>(app.Environment.IsDevelopment());
 
 app.UseHttpsRedirection();
 
