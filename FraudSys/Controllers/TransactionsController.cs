@@ -4,6 +4,7 @@ using FraudSys.Domain.Interfaces.Services;
 
 namespace FraudSys.Api.Controllers
 {
+    [ApiController]
     [Route("v1/[controller]")]
     public class TransactionsController(ITransactionService transactionService) : Controller
     {

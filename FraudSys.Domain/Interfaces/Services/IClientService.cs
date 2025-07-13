@@ -1,13 +1,12 @@
 ﻿using FraudSys.Domain.Services.Requests;
-using FraudSys.Domain.Services.Responses;
 
 namespace FraudSys.Domain.Interfaces.Services
 {
     public interface IClientService
     {
         Task CreateClientAsync(CreateClientRequest request, CancellationToken cancellationToken);
-        Task<GetClientResponse> GetClientAsync(GetClientRequest request, CancellationToken cancellationToken);
-        Task<GetClientResponse> UpdateClientAsync(UpdateClientRequest request, CancellationToken cancellationToken);
-        Task DeleteClientAsync(GetClientRequest request, CancellationToken cancellationToken);
+        Task<object> GetClientAsync(GetClientRequest request, CancellationToken cancellationToken);
+        Task<object> UpdateClientAsync(UpdateClientRequest request, CancellationToken cancellationToken);
+        Task DeleteClientAsync(DeleteClientRequest request, CancellationToken cancellationToken);
     }
 }

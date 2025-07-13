@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FraudSys.Api.Controllers
 {
+    [ApiController]
     [Route("v1/[controller]")]
     public class ClientsController(IClientService clientService) : Controller
     {
@@ -27,7 +28,7 @@ namespace FraudSys.Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteClient(GetClientRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteClient(DeleteClientRequest request, CancellationToken cancellationToken)
         {
             await clientService.DeleteClientAsync(request, cancellationToken);
             return NoContent();

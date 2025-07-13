@@ -2,7 +2,7 @@
 
 namespace FraudSys.Domain.Services.Requests
 {
-    public class GetClientRequest
+    public class DeleteClientRequest
     {
         [FromQuery]
         public required string ClientDocument { get; set; }

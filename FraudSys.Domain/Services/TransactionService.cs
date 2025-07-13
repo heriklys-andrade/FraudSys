@@ -1,41 +1,24 @@
-﻿using FraudSys.Domain.Interfaces.Repositories;
+﻿using FraudSys.Domain.Entities;
+using FraudSys.Domain.Interfaces.Repositories;
 using FraudSys.Domain.Interfaces.Services;
 using FraudSys.Domain.Services.Requests;
-using FraudSys.Domain.Services.Responses;
 
 namespace FraudSys.Domain.Services
 {
     public class TransactionService(IClientRepository clientRepository) : ITransactionService
     {
-        public async Task<GetClientResponse> ExecutePixTransaction(ExecutePixTransactionRequest request, CancellationToken cancellationToken)
+        public async Task<object> ExecutePixTransaction(ExecutePixTransactionRequest request, CancellationToken cancellationToken)
         {
             request.Validate();
-
             var sourceClient = await clientRepository.GetClientByPkAsync(request.SourceClientDocument, cancellationToken)
-                ?? throw new KeyNotFoundException("Cliente de origem não encontrado");
+                             ?? throw new InvalidOperationException("Cliente de origem não encontrado");
 
-            if (sourceClient.Agencia != request.SourceClientAgency)
-            {
-                throw new ArgumentException("Agência do cliente de origem não corresponde à agência solicitada");
-            }
-
-            if (sourceClient.Conta != request.SourceClientAccount)
-            {
-                throw new ArgumentException("Conta do cliente de origem não corresponde à conta solicitada");
-            }
+            ValidateClientDetails(request.SourceClientAgency, request.SourceClientAccount, sourceClient, "origem");
 
             var targetClient = await clientRepository.GetClientByPkAsync(request.TargetClientDocument, cancellationToken)
-                ?? throw new KeyNotFoundException("Cliente de destino não encontrado");
+                ?? throw new InvalidOperationException("Cliente de destino não encontrado");
 
-            if (targetClient.Agencia != request.TargetClientAgency)
-            {
-                throw new ArgumentException("Agência do cliente de destino não corresponde à agência solicitada");
-            }
-
-            if (targetClient.Conta != request.TargetClientAccount)
-            {
-                throw new ArgumentException("Conta do cliente de destino não corresponde à conta solicitada");
-            }
+            ValidateClientDetails(request.TargetClientAgency, request.TargetClientAccount, targetClient, "destino");
 
             if (sourceClient.LimitePix < request.TransactionAmount)
             {
@@ -47,10 +30,16 @@ namespace FraudSys.Domain.Services
 
             await clientRepository.UpdateClientsAsync([sourceClient, targetClient], cancellationToken);
 
-            return new GetClientResponse
-            {
-                ClientPixLimit = sourceClient.LimitePix
-            };
+            return new { ClientPixLimit = sourceClient.LimitePix };
+        }
+
+        private static void ValidateClientDetails(int requestAgency, string requestAccount, ClientEntity clientEntity, string clientType)
+        {
+            if (clientEntity.Agencia != requestAgency)
+                throw new ArgumentException(string.Format("Agência do cliente de {0} não corresponde à agência solicitada", clientType));
+
+            if (clientEntity.Conta != requestAccount)
+                throw new ArgumentException(string.Format("Conta do cliente de {0} não corresponde à conta solicitada", clientType));
         }
     }
 }
