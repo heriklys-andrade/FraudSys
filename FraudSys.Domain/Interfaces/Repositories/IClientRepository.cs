@@ -7,6 +7,6 @@ namespace FraudSys.Domain.Interfaces.Repositories
         Task CreateClientAsync(ClientEntity client, CancellationToken cancellationToken);
         Task<ClientEntity> GetClientByPkAsync(string pk, CancellationToken cancellationToken);
         Task UpdateClientAsync(ClientEntity client, CancellationToken cancellationToken);
-        Task DeleteClientAsync(string pk);
+        Task DeleteClientAsync(ClientEntity client, CancellationToken cancellationToken);
     }
 }

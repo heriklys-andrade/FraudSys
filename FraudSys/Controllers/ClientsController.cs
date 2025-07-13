@@ -25,5 +25,12 @@ namespace FraudSys.Api.Controllers
         {
             return Ok(await clientService.UpdateClientAsync(request, cancellationToken));
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteClient(GetClientRequest request, CancellationToken cancellationToken)
+        {
+            await clientService.DeleteClientAsync(request, cancellationToken);
+            return NoContent();
+        }
     }
 }

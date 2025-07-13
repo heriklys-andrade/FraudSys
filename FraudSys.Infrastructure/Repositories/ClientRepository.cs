@@ -41,9 +41,9 @@ namespace FraudSys.Infrastructure.Repositories
             await _context.SaveAsync(client, cancellationToken);
         }
 
-        public Task DeleteClientAsync(string pk)
+        public async Task DeleteClientAsync(ClientEntity client, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _context.DeleteAsync(client, cancellationToken);
         }
     }
 }

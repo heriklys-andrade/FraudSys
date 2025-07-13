@@ -12,18 +12,22 @@ namespace FraudSys.Domain.Services.Requests
         [FromQuery]
         public required string ClientAccount { get; set; }
 
-        [JsonIgnore]
-        public bool IsValid { get; set; }
-
-        [JsonIgnore]
-        public ICollection<string> ErrorMessages { get; set; }
-
         public void Validate()
         {
-            ErrorMessages = new List<string>();
+            if (string.IsNullOrWhiteSpace(ClientDocument))
+            {
+                throw new ArgumentException("Documento do cliente deve ser preenchido", nameof(ClientDocument));
+            }
 
+            if (ClientAgency <= 0)
+            {
+                throw new ArgumentException("Agência do cliente deve deve maior que zero", nameof(ClientAgency));
+            }
 
-
+            if (string.IsNullOrWhiteSpace(ClientAccount))
+            {
+                throw new ArgumentException("Conta do cliente deve ser preenchida", nameof(ClientAccount));
+            }
         }
     }
 }
