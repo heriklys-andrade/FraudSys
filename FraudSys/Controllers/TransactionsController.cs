@@ -9,7 +9,7 @@ namespace FraudSys.Api.Controllers
     public class TransactionsController(ITransactionService transactionService) : Controller
     {
         [HttpPost("pix")]
-        public async Task<IActionResult> CreateClient([FromBody] ExecutePixTransactionRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> ExecuteTransaction([FromBody] ExecutePixTransactionRequest request, CancellationToken cancellationToken)
         {
             return Ok(await transactionService.ExecutePixTransaction(request, cancellationToken));
         }

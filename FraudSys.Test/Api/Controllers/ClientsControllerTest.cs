@@ -21,7 +21,7 @@ namespace FraudSys.Test.Api.Controllers
 
         [Trait("CreateClient", "Success")]
         [Fact(DisplayName = "Cria um cliente com sucesso")]
-        public async Task CreateClient_ShouldCallServiceAndReturnCreated()
+        public async Task CreateClient_Success()
         {
             // Arrange
             var request = new CreateClientRequest
@@ -45,7 +45,7 @@ namespace FraudSys.Test.Api.Controllers
 
         [Trait("GetClient", "Success")]
         [Fact(DisplayName = "Obtém um cliente com sucesso")]
-        public async Task GetClient_ShouldCallServiceAndReturnOk()
+        public async Task GetClient_Success()
         {
             // Arrange
             var request = new GetClientRequest
@@ -71,7 +71,7 @@ namespace FraudSys.Test.Api.Controllers
 
         [Trait("UpdateClient", "Success")]
         [Fact(DisplayName = "Atualiza um cliente com sucesso")]
-        public async Task UpdateClient_ShouldCallServiceAndReturnOk()
+        public async Task UpdateClient_Success()
         {
             // Arrange
             var request = new UpdateClientRequest
@@ -96,7 +96,7 @@ namespace FraudSys.Test.Api.Controllers
 
         [Trait("DeleteClient", "Success")]
         [Fact(DisplayName = "Exclui um cliente com sucesso")]
-        public async Task DeleteClient_ShouldCallServiceAndReturnNoContent()
+        public async Task DeleteClient_Success()
         {
             // Arrange
             var request = new DeleteClientRequest
