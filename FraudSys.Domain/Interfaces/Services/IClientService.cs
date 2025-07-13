@@ -7,5 +7,6 @@ namespace FraudSys.Domain.Interfaces.Services
     {
         Task CreateClientAsync(CreateClientRequest request, CancellationToken cancellationToken);
         Task<GetClientResponse> GetClientAsync(GetClientRequest request, CancellationToken cancellationToken);
+        Task<GetClientResponse> UpdateClientAsync(UpdateClientRequest request, CancellationToken cancellationToken);
     }
 }

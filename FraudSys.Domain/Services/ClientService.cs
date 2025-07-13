@@ -36,5 +36,31 @@ namespace FraudSys.Domain.Services
                 ClientPixLimit = client.LimitePix
             };
         }
+
+        public async Task<GetClientResponse> UpdateClientAsync(UpdateClientRequest request, CancellationToken cancellationToken)
+        {
+            request.Validate();
+
+            var client = await clientRepository.GetClientByPkAsync(request.ClientDocument, cancellationToken) ?? throw new KeyNotFoundException("Cliente não encontrado");
+
+            if (client.Agencia != request.ClientAgency)
+            {
+                throw new ArgumentException("Agência do cliente não corresponde à agência solicitada");
+            }
+
+            if (client.Conta != request.ClientAccount)
+            {
+                throw new ArgumentException("Conta do cliente não corresponde à conta solicitada");
+            }
+
+            client.UpdatePixLimit(request.ClientPixLimit);
+
+            await clientRepository.UpdateClientAsync(client, cancellationToken);
+
+            return new GetClientResponse
+            {
+                ClientPixLimit = client.LimitePix
+            };
+        }
     }
 }

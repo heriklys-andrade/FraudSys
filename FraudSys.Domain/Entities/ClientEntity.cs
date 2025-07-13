@@ -29,5 +29,15 @@ namespace FraudSys.Domain.Entities
 
         [DynamoDBProperty("pix_limit")]
         public double LimitePix { get; private set; }
+
+        public void UpdatePixLimit(double newLimit)
+        {
+            if (newLimit <= 0)
+            {
+                throw new ArgumentException("Limite Pix deve ser maior que zero", nameof(newLimit));
+            }
+
+            LimitePix = newLimit;
+        }
     }
 }

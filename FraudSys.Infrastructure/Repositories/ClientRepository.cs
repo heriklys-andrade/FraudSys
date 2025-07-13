@@ -26,19 +26,19 @@ namespace FraudSys.Infrastructure.Repositories
                 .Build();
         }
 
-        public async Task<ClientEntity> GetClientByPkAsync(string pk, CancellationToken cancellationToken)
-        {
-            return await _context.LoadAsync<ClientEntity>(pk, cancellationToken);
-        }
-
         public async Task CreateClientAsync(ClientEntity client, CancellationToken cancellationToken)
         {
             await _context.SaveAsync(client, cancellationToken);
         }
 
-        public Task UpdateClientAsync(ClientEntity client)
+        public async Task<ClientEntity> GetClientByPkAsync(string pk, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _context.LoadAsync<ClientEntity>(pk, cancellationToken);
+        }
+
+        public async Task UpdateClientAsync(ClientEntity client, CancellationToken cancellationToken)
+        {
+            await _context.SaveAsync(client, cancellationToken);
         }
 
         public Task DeleteClientAsync(string pk)

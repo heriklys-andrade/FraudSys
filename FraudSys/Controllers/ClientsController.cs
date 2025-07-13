@@ -19,5 +19,11 @@ namespace FraudSys.Api.Controllers
         {
             return Ok(await clientService.GetClientAsync(request, cancellationToken));
         }
+
+        [HttpPut("{clientDocument}")]
+        public async Task<IActionResult> UpdateClient(UpdateClientRequest request, CancellationToken cancellationToken)
+        {
+            return Ok(await clientService.UpdateClientAsync(request, cancellationToken));
+        }
     }
 }
