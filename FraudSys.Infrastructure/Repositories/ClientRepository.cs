@@ -5,9 +5,11 @@ using FraudSys.Domain.Entities;
 using FraudSys.Domain.Environments;
 using FraudSys.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FraudSys.Infrastructure.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class ClientRepository : IClientRepository
     {
         private readonly IDynamoDBContext _context;
