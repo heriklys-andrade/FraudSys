@@ -16,8 +16,10 @@ namespace FraudSys.Test.Api.Middlewares
         }
 
         [Trait("InvokeAsync", "Success")]
-        [Fact(DisplayName = "Executa com sucesso uma requisição HTTP")]
-        public async Task InvokeAsync_Success()
+        [Theory(DisplayName = "Executa com sucesso uma requisição HTTP")]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task InvokeAsync_Success(bool isDevelopment)
         {
             // Arrange
             var context = new DefaultHttpContext();
@@ -29,7 +31,7 @@ namespace FraudSys.Test.Api.Middlewares
                 await ctx.Response.WriteAsync("Sucesso");
             };
 
-            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, true);
+            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, isDevelopment);
 
             // Act
             await middleware.InvokeAsync(context);
@@ -39,14 +41,16 @@ namespace FraudSys.Test.Api.Middlewares
         }
 
         [Trait("InvokeAsync", "KeyNotFoundException")]
-        [Fact(DisplayName = "Lança KeyNotFoundException e retorna 404")]
-        public async Task InvokeAsync_KeyNotFoundException_ReturnsNotFound()
+        [Theory(DisplayName = "Lança KeyNotFoundException e retorna 404")]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task InvokeAsync_KeyNotFoundException_ReturnsNotFound(bool isDevelopment)
         {
             // Arrange
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
             RequestDelegate next = (ctx) => throw new KeyNotFoundException("Cliente não encontrado");
-            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, true);
+            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, isDevelopment);
 
             // Act
             await middleware.InvokeAsync(context);
@@ -56,14 +60,16 @@ namespace FraudSys.Test.Api.Middlewares
         }
 
         [Trait("InvokeAsync", "ArgumentException")]
-        [Fact(DisplayName = "Lança ArgumentException e retorna 400")]
-        public async Task InvokeAsync_ArgumentException_ReturnsBadRequest()
+        [Theory(DisplayName = "Lança ArgumentException e retorna 400")]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task InvokeAsync_ArgumentException_ReturnsBadRequest(bool isDevelopment)
         {
             // Arrange
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
             RequestDelegate next = (ctx) => throw new ArgumentException("Argumento inválido");
-            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, true);
+            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, isDevelopment);
 
             // Act
             await middleware.InvokeAsync(context);
@@ -73,14 +79,16 @@ namespace FraudSys.Test.Api.Middlewares
         }
 
         [Trait("InvokeAsync", "InvalidOperationException")]
-        [Fact(DisplayName = "Lança InvalidOperationException e retorna 400")]
-        public async Task InvokeAsync_InvalidOperationException_ReturnsBadRequest()
+        [Theory(DisplayName = "Lança InvalidOperationException e retorna 400")]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task InvokeAsync_InvalidOperationException_ReturnsBadRequest(bool isDevelopment)
         {
             // Arrange
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
             RequestDelegate next = (ctx) => throw new InvalidOperationException("Operação inválida");
-            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, true);
+            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, isDevelopment);
 
             // Act
             await middleware.InvokeAsync(context);
@@ -90,14 +98,16 @@ namespace FraudSys.Test.Api.Middlewares
         }
 
         [Trait("InvokeAsync", "Exception")]
-        [Fact(DisplayName = "Lança Exception e retorna 500")]
-        public async Task InvokeAsync_Exception_ReturnsInternalServerError()
+        [Theory(DisplayName = "Lança Exception e retorna 500")]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task InvokeAsync_Exception_ReturnsInternalServerError(bool isDevelopment)
         {
             // Arrange
             var context = new DefaultHttpContext();
             context.Response.Body = new MemoryStream();
             RequestDelegate next = (ctx) => throw new Exception("Erro interno");
-            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, true);
+            var middleware = new ExceptionMiddleware(next, _loggerMock.Object, isDevelopment);
 
             // Act
             await middleware.InvokeAsync(context);

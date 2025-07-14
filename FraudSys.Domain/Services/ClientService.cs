@@ -13,8 +13,7 @@ namespace FraudSys.Domain.Services
 
             var existingClient = await clientRepository.GetClientByPkAsync(request.ClientDocument, cancellationToken);
 
-            if (existingClient != null && existingClient.Documento == request.ClientDocument &&
-                existingClient.Agencia == request.ClientAgency && existingClient.Conta == request.ClientAccount)
+            if (existingClient != null && existingClient.Documento == request.ClientDocument)
                 throw new InvalidOperationException("Cliente já cadastrado");
 
             var client = new ClientEntity(request.ClientDocument, request.ClientAgency, request.ClientAccount, request.ClientPixLimit);
