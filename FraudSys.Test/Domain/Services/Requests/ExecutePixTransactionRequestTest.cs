@@ -83,6 +83,19 @@ namespace FraudSys.Test.Domain.Services.Requests
                 {
                     new ExecutePixTransactionRequest
                     {
+                        SourceClientDocument = "123",
+                        SourceClientAgency = "101",
+                        SourceClientAccount = "123-1",
+                        TargetClientDocument = "10987654321",
+                        TargetClientAgency = "202",
+                        TargetClientAccount = "456-2",
+                        TransactionAmount = 100.00
+                    },
+                    "Documento do cliente de origem deve conter 11 caracteres"
+                },
+                {
+                    new ExecutePixTransactionRequest
+                    {
                         SourceClientDocument = "12345678901",
                         SourceClientAgency = null,
                         SourceClientAccount = "123-1",
@@ -203,6 +216,19 @@ namespace FraudSys.Test.Domain.Services.Requests
                         SourceClientDocument = "12345678901",
                         SourceClientAgency = "101",
                         SourceClientAccount = "123-1",
+                        TargetClientDocument = "123",
+                        TargetClientAgency = "202",
+                        TargetClientAccount = "456-2",
+                        TransactionAmount = 100.00
+                    },
+                    "Documento do cliente de destino deve conter 11 caracteres"
+                },
+                {
+                    new ExecutePixTransactionRequest
+                    {
+                        SourceClientDocument = "12345678901",
+                        SourceClientAgency = "101",
+                        SourceClientAccount = "123-1",
                         TargetClientDocument = "10987654321",
                         TargetClientAgency = null,
                         TargetClientAccount = "456-2",
@@ -314,6 +340,19 @@ namespace FraudSys.Test.Domain.Services.Requests
                     },
                     "Valor da transferência deve ser maior que zero"
                 },
+                {
+                    new ExecutePixTransactionRequest
+                    {
+                        SourceClientDocument = "12345678901",
+                        SourceClientAgency = "101",
+                        SourceClientAccount = "123-1",
+                        TargetClientDocument = "10987654321",
+                        TargetClientAgency = "202",
+                        TargetClientAccount = "456-2",
+                        TransactionAmount = 500.00326
+                    },
+                    "O valor do Limite Pix deve conter no máximo duas casas decimais"
+                }
             };
         }
     }

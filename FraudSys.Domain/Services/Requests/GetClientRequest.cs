@@ -18,6 +18,11 @@ namespace FraudSys.Domain.Services.Requests
                 throw new ArgumentException("Documento do cliente deve ser preenchido", nameof(ClientDocument));
             }
 
+            if (ClientDocument.Length != 11)
+            {
+                throw new ArgumentException("Documento do cliente deve conter 11 caracteres", nameof(ClientDocument));
+            }
+
             if (string.IsNullOrWhiteSpace(ClientAgency))
             {
                 throw new ArgumentException("Agência do cliente deve ser preenchida", nameof(ClientAgency));

@@ -67,6 +67,15 @@ namespace FraudSys.Test.Domain.Services.Requests
                 {
                     new DeleteClientRequest
                     {
+                        ClientDocument = "123",
+                        ClientAgency = "101",
+                        ClientAccount = "123-1"
+                    },
+                    "Documento do cliente deve conter 11 caracteres"
+                },
+                {
+                    new DeleteClientRequest
+                    {
                         ClientDocument = "12345678901",
                         ClientAgency = null,
                         ClientAccount = "123-1"

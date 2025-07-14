@@ -1,4 +1,7 @@
-﻿namespace FraudSys.Domain.Services.Requests
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+
+namespace FraudSys.Domain.Services.Requests
 {
     public class ExecutePixTransactionRequest
     {
@@ -17,6 +20,11 @@
                 throw new ArgumentException("Documento do cliente de origem deve ser preenchido", nameof(SourceClientDocument));
             }
 
+            if (SourceClientDocument.Length != 11)
+            {
+                throw new ArgumentException("Documento do cliente de origem deve conter 11 caracteres", nameof(SourceClientDocument));
+            }
+
             if (string.IsNullOrWhiteSpace(SourceClientAgency))
             {
                 throw new ArgumentException("Agência do cliente de origem deve ser preenchida", nameof(SourceClientAgency));
@@ -30,6 +38,11 @@
             if (string.IsNullOrWhiteSpace(TargetClientDocument))
             {
                 throw new ArgumentException("Documento do cliente de destino deve ser preenchido", nameof(TargetClientDocument));
+            }
+
+            if (TargetClientDocument.Length != 11)
+            {
+                throw new ArgumentException("Documento do cliente de destino deve conter 11 caracteres", nameof(TargetClientDocument));
             }
 
             if (string.IsNullOrWhiteSpace(TargetClientAgency))
@@ -50,6 +63,11 @@
             if (TransactionAmount <= 0)
             {
                 throw new ArgumentException("Valor da transferência deve ser maior que zero", nameof(TransactionAmount));
+            }
+
+            if (!Regex.IsMatch(TransactionAmount.ToString(CultureInfo.InvariantCulture), @"^\d+(\.\d{1,2})?$"))
+            {
+                throw new ArgumentException("O valor do Limite Pix deve conter no máximo duas casas decimais", nameof(TransactionAmount));
             }
         }
     }

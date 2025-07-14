@@ -71,6 +71,16 @@ namespace FraudSys.Test.Domain.Services.Requests
                 {
                     new CreateClientRequest
                     {
+                        ClientDocument = "123",
+                        ClientAgency = "101",
+                        ClientAccount = "123-1",
+                        ClientPixLimit = 1000.00
+                    },
+                    "Documento do cliente deve conter 11 caracteres"
+                },
+                {
+                    new CreateClientRequest
+                    {
                         ClientDocument = "12345678901",
                         ClientAgency = null,
                         ClientAccount = "123-1",
@@ -147,6 +157,16 @@ namespace FraudSys.Test.Domain.Services.Requests
                         ClientPixLimit = -1000.00
                     },
                     "Limite Pix do cliente deve ser maior que zero"
+                },
+                {
+                    new CreateClientRequest
+                    {
+                        ClientDocument = "12345678901",
+                        ClientAgency = "101",
+                        ClientAccount = "123-1",
+                        ClientPixLimit = 1000.0012
+                    },
+                    "O valor do Limite Pix deve conter no máximo duas casas decimais"
                 }
             };
         }

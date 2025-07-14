@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace FraudSys.Domain.Services.Requests
 {
@@ -20,6 +22,11 @@ namespace FraudSys.Domain.Services.Requests
                 throw new ArgumentException("Documento do cliente deve ser preenchido", nameof(ClientDocument));
             }
 
+            if (ClientDocument.Length != 11)
+            {
+                throw new ArgumentException("Documento do cliente deve conter 11 caracteres", nameof(ClientDocument));
+            }
+
             if (string.IsNullOrWhiteSpace(ClientAgency))
             {
                 throw new ArgumentException("Agência do cliente deve ser preenchida", nameof(ClientAgency));
@@ -33,6 +40,11 @@ namespace FraudSys.Domain.Services.Requests
             if (ClientPixLimit <= 0)
             {
                 throw new ArgumentException("Limite Pix do cliente deve ser maior que zero", nameof(ClientPixLimit));
+            }
+
+            if (!Regex.IsMatch(ClientPixLimit.ToString(CultureInfo.InvariantCulture), @"^\d+(\.\d{1,2})?$"))
+            {
+                throw new ArgumentException("O valor do Limite Pix deve conter no máximo duas casas decimais", nameof(ClientPixLimit));
             }
         }
     }
