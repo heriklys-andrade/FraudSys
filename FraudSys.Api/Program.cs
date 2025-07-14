@@ -9,61 +9,69 @@ using FraudSys.Domain.Interfaces.Services;
 using FraudSys.Domain.Services;
 using FraudSys.Infrastructure.Repositories;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.Configure<AwsSettings>(builder.Configuration.GetSection("AWS"));
-
-var awsOptions = builder.Configuration.GetAWSOptions();
-builder.Services.AddDefaultAWSOptions(awsOptions);
-
-//DynamoDB Settings
-builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
+[ExcludeFromCodeCoverage]
+internal class Program
 {
-    var settings = sp.GetRequiredService<IOptions<AwsSettings>>().Value;
-    var credentials = new BasicAWSCredentials(settings.AccessKey, settings.SecretKey);
-    var config = new AmazonDynamoDBConfig
+    private static void Main(string[] args)
     {
-        RegionEndpoint = RegionEndpoint.GetBySystemName(settings.Region)
-    };
+        var builder = WebApplication.CreateBuilder(args);
 
-    return new AmazonDynamoDBClient(credentials, config);
-});
+        builder.Services.Configure<AwsSettings>(builder.Configuration.GetSection("AWS"));
 
-builder.Services.AddSingleton<IDynamoDBContext>(sp =>
-{
-    var client = sp.GetRequiredService<IAmazonDynamoDB>();
+        var awsOptions = builder.Configuration.GetAWSOptions();
+        builder.Services.AddDefaultAWSOptions(awsOptions);
 
-    return new DynamoDBContextBuilder()
-        .WithDynamoDBClient(() => client)
-        .ConfigureContext(cfg => cfg.DisableFetchingTableMetadata = true)
-        .Build();
-});
+        //DynamoDB Settings
+        builder.Services.AddSingleton<IAmazonDynamoDB>(sp =>
+        {
+            var settings = sp.GetRequiredService<IOptions<AwsSettings>>().Value;
+            var credentials = new BasicAWSCredentials(settings.AccessKey, settings.SecretKey);
+            var config = new AmazonDynamoDBConfig
+            {
+                RegionEndpoint = RegionEndpoint.GetBySystemName(settings.Region)
+            };
 
-//DI Services
-builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<ITransactionService, TransactionService>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
+            return new AmazonDynamoDBClient(credentials, config);
+        });
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+        builder.Services.AddSingleton<IDynamoDBContext>(sp =>
+        {
+            var client = sp.GetRequiredService<IAmazonDynamoDB>();
 
-var app = builder.Build();
+            return new DynamoDBContextBuilder()
+                .WithDynamoDBClient(() => client)
+                .ConfigureContext(cfg => cfg.DisableFetchingTableMetadata = true)
+                .Build();
+        });
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        //DI Services
+        builder.Services.AddScoped<IClientService, ClientService>();
+        builder.Services.AddScoped<ITransactionService, TransactionService>();
+        builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseMiddleware<ExceptionMiddleware>(app.Environment.IsDevelopment());
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.Run();
+    }
 }
-
-app.UseMiddleware<ExceptionMiddleware>(app.Environment.IsDevelopment());
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
