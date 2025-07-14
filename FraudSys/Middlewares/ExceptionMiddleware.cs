@@ -68,5 +68,4 @@ namespace FraudSys.Api.Middlewares
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
     }
-
 }
