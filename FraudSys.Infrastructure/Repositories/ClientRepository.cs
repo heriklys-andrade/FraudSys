@@ -1,10 +1,6 @@
-﻿using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using Amazon.Runtime;
+﻿using Amazon.DynamoDBv2.DataModel;
 using FraudSys.Domain.Entities;
-using FraudSys.Domain.Environments;
 using FraudSys.Domain.Interfaces.Repositories;
-using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 
 namespace FraudSys.Infrastructure.Repositories
@@ -14,18 +10,9 @@ namespace FraudSys.Infrastructure.Repositories
     {
         private readonly IDynamoDBContext _context;
 
-        public ClientRepository(IOptions<AwsSettings> awsSettings)
+        public ClientRepository(IDynamoDBContext context)
         {
-            var credentials = new BasicAWSCredentials(awsSettings.Value.AccessKey, awsSettings.Value.SecretKey);
-
-            var client = new AmazonDynamoDBClient(credentials, new AmazonDynamoDBConfig() { RegionEndpoint = Amazon.RegionEndpoint.USEast2 });
-
-            var ctxBuilder = new DynamoDBContextBuilder();
-
-            _context = ctxBuilder
-                .WithDynamoDBClient(() => client)
-                .ConfigureContext(config => config.DisableFetchingTableMetadata = true)
-                .Build();
+            _context = context;
         }
 
         public async Task CreateClientAsync(ClientEntity client, CancellationToken cancellationToken)
