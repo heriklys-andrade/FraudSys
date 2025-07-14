@@ -51,10 +51,10 @@ Recebe uma solicitação de transação e executa a lógica de validação do li
 
 | Camada      | Tecnologias / Padrões                                                                              |
 | ----------- | -------------------------------------------------------------------------------------------------- |
-| Backend     | [.NET 8](https://dotnet.microsoft.com/)                                                            |
-| Banco       | [Amazon DynamoDB (AWS - uso recomendado)](https://aws.amazon.com/dynamodb/)                        |
-| Arquitetura | MVC, SOLID, Clean Code                                                                             |
-| Extras      | [Domain Driven Design (DDD)](https://en.wikipedia.org/wiki/Domain-driven_design), Testes Unitários |
+| Backend     | .NET 8                                                                                             |
+| Banco       | Amazon DynamoDB (AWS - uso recomendado)                                                            |
+| Arquitetura | MVC, SOLID, Clean Code, DDD                                                                        |
+| Extras      | Testes unitários                                                                                   |
 
 ---
 
@@ -76,8 +76,8 @@ Para armazenar com segurança suas credenciais da AWS em ambiente de desenvolvim
 
 ### Pré-requisitos
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [AWS CLI configurado](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)
+- .NET 8 SDK
+- AWS CLI configurado
 - Conta AWS com permissões para usar DynamoDB (**recomendado**)  
   *(Opcional para testes locais: [DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html))*
 
